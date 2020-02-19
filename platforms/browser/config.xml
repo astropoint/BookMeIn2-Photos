@@ -9,7 +9,7 @@
     <feature name="BarcodeScanner">
         <param name="browser-package" value="BarcodeScanner" />
     </feature>
-    <name>BookMeIn2</name>
+    <name>BookMeIn2 Photos</name>
     <description>
         Register attendees at conferences and events.
     </description>
