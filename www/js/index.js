@@ -70,8 +70,17 @@ $(document).on('click', '#getphotobutton', function(e){
 $(document).on('click', '#save', function(e){
 	e.preventDefault();
 	
-	localStorage.setItem("contact_"+photocount+"_photo", $('#photoid').attr('src'));
-	localStorage.setItem("contact_"+photocount+"_notes", $('#notes').val());
+	var notes = $('#notes').val();
+	var photo = $('#photoid').attr('src');
+	
+	if(photo=='' && notes==''){
+		if(!confirm("You have not taken a picture or typed any notes, are you sure you wish to continue")){
+			return;
+		}
+	}
+	
+	localStorage.setItem("contact_"+photocount+"_photo", photo);
+	localStorage.setItem("contact_"+photocount+"_notes", notes);
 	
 	photocount++;
 	$('#notes').val('');
@@ -84,7 +93,11 @@ function viewPhotos(){
 	html += "<tbody>";
 	for(var i=0;i<photocount;i++){
 		html += "<tr>";
-		html += "<td><a id='gotophoto-"+i+"' class='gotophoto'><img height='150' src='"+localStorage.getItem("contact_"+i+"_photo")+"' /></a></td>";
+		if(typeof(localStorage.getItem("contact_"+i+"_photo"))!==undefined && localStorage.getItem("contact_"+i+"_photo")!='undefined' && localStorage.getItem("contact_"+i+"_photo")!=''){
+			html += "<td><a id='gotophoto-"+i+"' class='gotophoto'><img height='150' src='"+localStorage.getItem("contact_"+i+"_photo")+"' /></a></td>";
+		}else{
+			html += "<td></td>";
+		}
 		html += "<td>"+localStorage.getItem("contact_"+i+"_notes")+"</td>";
 		html += "<td></td>";
 		html += "</tr>";
@@ -102,6 +115,11 @@ $(document).on('click', '.gotophoto', function(e){
 	var id = $(this).attr('id').split("-")[1];
 	$('#singlephoto').attr('src', localStorage.getItem("contact_"+id+"_photo"));
 	window.location='#viewphoto';
+});
+
+$(document).on('change', '#zoom', function(e){
+	var zoom = $(this).val();
+	$('#singlephoto').attr('width', zoom+"%");
 });
 
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
