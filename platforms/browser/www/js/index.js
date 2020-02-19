@@ -122,6 +122,12 @@ $(document).on('change', '#zoom', function(e){
 	$('#singlephoto').attr('width', zoom+"%");
 });
 
+$(document).on('click', '#clearstorage', function(e){
+	e.preventDefault();
+	photocount = 0;
+	viewPhotos();
+});
+
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
 //Sham - this and the below are there for expandability, can be used for selective synch so only page relevant data is refreshed.
 $(document).on( "pagecontainerchange", function( event, ui ) {
