@@ -106,6 +106,22 @@ function viewPhotos(){
 	}
 	html += "</tbody></table>";
 	$('#allcontacts').html(html);
+	
+	var content = "";
+	var localStorageSpace = function(){
+        var allStrings = '';
+        for(var key in window.localStorage){
+            if(window.localStorage.hasOwnProperty(key)){
+                allStrings += window.localStorage[key];
+            }
+        }
+        return allStrings ? 3 + ((allStrings.length*16)/(8*1024)) + ' KB' : 'Empty (0 KB)';
+    };
+  content += "<pre>Total size: "+localStorageSpace()+"</pre>";
+	for (var i = 0; i < localStorage.length; i++){
+		content += "<pre>"+localStorage.key(i)+": "+localStorage.getItem(localStorage.key(i))+"</pre>";
+	}
+	$('#allstorage').html(content);
 }
 
 function dateWithoutSeconds(date){
