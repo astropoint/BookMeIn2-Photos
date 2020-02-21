@@ -2,12 +2,15 @@ $(document).ready(function(){
 	//This will need to be removed when it's uploaded to phone...
 	document.addEventListener('deviceready', onDeviceReady,false);
 	
-	
+	photocount = localStorage.getItem("photocount");
+	if(photocount===null){
+		photocount = 0;
+		localStorage.setItem("photocount", 0);
+	}
 });
 
-var photocount = 0;
-var agendasort = 'desc';
-var loggedIn = false;
+var debugging = false;
+var photocount;
 
 var spinner = '<svg class="svg-inline--fa fa-spinner fa-w-16 fa-spin" aria-hidden="true" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>';
 
@@ -83,6 +86,7 @@ $(document).on('click', '#save', function(e){
 	localStorage.setItem("contact_"+photocount+"_notes", notes);
 	
 	photocount++;
+	localStorage.setItem("photocount", photocount);
 	$('#notes').val('');
 	$('#photoid').attr('src', '')
 });
@@ -99,11 +103,31 @@ function viewPhotos(){
 			html += "<td></td>";
 		}
 		html += "<td>"+localStorage.getItem("contact_"+i+"_notes")+"</td>";
-		html += "<td></td>";
+		html += "<td><a id='gotophotolink-"+i+"' class='gotophoto'><i class='fas fa-edit fa-2x'></i></a></td>";
 		html += "</tr>";
 	}
 	html += "</tbody></table>";
 	$('#allcontacts').html(html);
+	
+	if(debugging){
+		var content = "";
+		var localStorageSpace = function(){
+					var allStrings = '';
+					for(var key in window.localStorage){
+							if(window.localStorage.hasOwnProperty(key)){
+									allStrings += window.localStorage[key];
+							}
+					}
+					return allStrings ? 3 + ((allStrings.length*16)/(8*1024)) + ' KB' : 'Empty (0 KB)';
+			};
+		content += "<pre>Total size: "+localStorageSpace()+"</pre>";
+		for (var i = 0; i < localStorage.length; i++){
+			content += "<pre>"+localStorage.key(i)+": "+localStorage.getItem(localStorage.key(i))+"</pre>";
+		}
+		$('#allstorage').html(content);
+	}else{
+		$('#pendingblock').hide();
+	}
 }
 
 function dateWithoutSeconds(date){
@@ -114,6 +138,8 @@ $(document).on('click', '.gotophoto', function(e){
 	e.preventDefault();
 	var id = $(this).attr('id').split("-")[1];
 	$('#singlephoto').attr('src', localStorage.getItem("contact_"+id+"_photo"));
+	$('#contacttoedit').val(id);
+	$('#editnotes').val(localStorage.getItem("contact_"+id+"_notes"));
 	window.location='#viewphoto';
 });
 
@@ -128,18 +154,27 @@ $(document).on('click', '#clearstorage', function(e){
 	viewPhotos();
 });
 
+$(document).on('click', '#saveeditednotes', function(e){
+	e.preventDefault();
+	var idtoedit = $('#contacttoedit').val();
+	var notes = $('#editnotes').val();
+	localStorage.setItem("contact_"+idtoedit+"_notes", notes);
+	window.location = "#viewlist";
+});
+
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
 //Sham - this and the below are there for expandability, can be used for selective synch so only page relevant data is refreshed.
 $(document).on( "pagecontainerchange", function( event, ui ) {
 
 	switch (ui.toPage.prop("id")) {
 		case "takephoto":
+		case "viewphoto":
 			break;
 		case "viewlist":
 			viewPhotos();
 			break;
 		default:
-			console.log("NO PAGE INIT FUNCTION")
+			console.log("NO PAGE INIT FUNCTION: "+ui.toPage.prop("id"));
 			break;
 	}
 });
