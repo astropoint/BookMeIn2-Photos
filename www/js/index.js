@@ -103,7 +103,7 @@ function viewPhotos(){
 			html += "<td></td>";
 		}
 		html += "<td>"+localStorage.getItem("contact_"+i+"_notes")+"</td>";
-		html += "<td></td>";
+		html += "<td><a id='gotophotolink-"+i+"' class='gotophoto'><i class='fas fa-edit fa-2x'></i></a></td>";
 		html += "</tr>";
 	}
 	html += "</tbody></table>";
@@ -138,6 +138,8 @@ $(document).on('click', '.gotophoto', function(e){
 	e.preventDefault();
 	var id = $(this).attr('id').split("-")[1];
 	$('#singlephoto').attr('src', localStorage.getItem("contact_"+id+"_photo"));
+	$('#contacttoedit').val(id);
+	$('#editnotes').val(localStorage.getItem("contact_"+id+"_notes"));
 	window.location='#viewphoto';
 });
 
@@ -152,18 +154,27 @@ $(document).on('click', '#clearstorage', function(e){
 	viewPhotos();
 });
 
+$(document).on('click', '#saveeditednotes', function(e){
+	e.preventDefault();
+	var idtoedit = $('#contacttoedit').val();
+	var notes = $('#editnotes').val();
+	localStorage.setItem("contact_"+idtoedit+"_notes", notes);
+	window.location = "#viewlist";
+});
+
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
 //Sham - this and the below are there for expandability, can be used for selective synch so only page relevant data is refreshed.
 $(document).on( "pagecontainerchange", function( event, ui ) {
 
 	switch (ui.toPage.prop("id")) {
 		case "takephoto":
+		case "viewphoto":
 			break;
 		case "viewlist":
 			viewPhotos();
 			break;
 		default:
-			console.log("NO PAGE INIT FUNCTION")
+			console.log("NO PAGE INIT FUNCTION: "+ui.toPage.prop("id"));
 			break;
 	}
 });

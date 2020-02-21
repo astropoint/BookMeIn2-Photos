@@ -1,12 +1,17 @@
 /*common styling elements placed at bottom of page*/
 
-body{
-	font-family: sans-serif;}
+html, body{
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	font-family: sans-serif;
+}
+
 a {
 	color:grey;
 	text-decoration:none;	 
 	font-weight: bold;
-	}
+}
 
 
 /*############ Header #########################*/
@@ -143,6 +148,10 @@ a {
 .normallink{
 	color: blue !important;
 	text-decoration: underline !important;
+	cursor: pointer;
+}
+
+.gotophoto{
 	cursor: pointer;
 }
 

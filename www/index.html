@@ -21,9 +21,9 @@
 		<script type="text/javascript" src="js/index.js" defer></script>
 				<!--I think this CSS applies to all pages here-->        
 		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/all.min.css">
 		<link rel="stylesheet" href="css/style.css">
-		<title>BookMeIn2 Photos</title>
+		<title>BookMeIn2 Photos</title> 
 
 </head>
 
@@ -86,7 +86,7 @@
 
 	<div data-role="page" class='mypage' id="viewphoto">
 		<div data-role="header">
-			<title>View Photo</title>
+			<title>View Contact</title>
 		</div>
 
 		<div role="main" class="ui-content">
@@ -102,8 +102,11 @@
 			
 			
 			<div class='pagebody'>
+				<input id='contacttoedit' type='hidden' />
+				<div>Notes:<br><textarea id='editnotes'></textarea></div>
+				<div><button id='saveeditednotes'>Save notes</button></div>
 				<div><label for='zoom'>Zoom</label><input style='display:inline-block' type="range" min="50" max="200" value="100" step='10' class="slider" id="zoom"></div>
-				<div style='overflow:scroll;height:80%'><img width='100%' id='singlephoto' /></div>
+				<div style='overflow:scroll;height:800px'><img width='100%' id='singlephoto' /></div>
 				<div><button class='goback'>Go Back</button></div>
 			</div>
 					 
