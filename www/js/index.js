@@ -98,7 +98,8 @@ function viewPhotos(){
 	for(var i=0;i<photocount;i++){
 		html += "<tr>";
 		if(typeof(localStorage.getItem("contact_"+i+"_photo"))!==undefined && localStorage.getItem("contact_"+i+"_photo")!='undefined' && localStorage.getItem("contact_"+i+"_photo")!=''){
-			html += "<td><a id='gotophoto-"+i+"' class='gotophoto'><img height='150' src='"+localStorage.getItem("contact_"+i+"_photo")+"' /></a></td>";
+			//html += "<td><a id='gotophoto-"+i+"' class='gotophoto'><img height='150' src='"+localStorage.getItem("contact_"+i+"_photo")+"' /></a></td>";
+			html += "<td><a class='viewsinglephoto' id='viewsinglephoto-"+i+"'><img height='150' src='"+localStorage.getItem("contact_"+i+"_photo")+"' /></a></td>";
 		}else{
 			html += "<td></td>";
 		}
@@ -134,13 +135,18 @@ function dateWithoutSeconds(date){
 	return date.substring(0, date.length - 3);
 }
 
+function editNotes(){
+	var idtoedit = localStorage.getItem("idtoedit");
+	$('#editnotestextarea').val(localStorage.getItem("contact_"+idtoedit+"_notes"));
+	$('#singlephoto').attr('src', localStorage.getItem("contact_"+idtoedit+"_photo"));
+	
+}
+
 $(document).on('click', '.gotophoto', function(e){
 	e.preventDefault();
 	var id = $(this).attr('id').split("-")[1];
-	$('#singlephoto').attr('src', localStorage.getItem("contact_"+id+"_photo"));
-	$('#contacttoedit').val(id);
-	$('#editnotes').val(localStorage.getItem("contact_"+id+"_notes"));
-	window.location='#viewphoto';
+	localStorage.setItem("idtoedit", id);
+	window.location='#editnotes';
 });
 
 $(document).on('change', '#zoom', function(e){
@@ -156,11 +162,31 @@ $(document).on('click', '#clearstorage', function(e){
 
 $(document).on('click', '#saveeditednotes', function(e){
 	e.preventDefault();
-	var idtoedit = $('#contacttoedit').val();
-	var notes = $('#editnotes').val();
+	var idtoedit = localStorage.getItem("idtoedit");
+	var notes = $('#editnotestextarea').val();
 	localStorage.setItem("contact_"+idtoedit+"_notes", notes);
 	window.location = "#viewlist";
 });
+
+$(document).on('click', '#singlephoto', function(e){
+	e.preventDefault();
+	var thisid = localStorage.getItem("idtoedit");
+	localStorage.setItem("idtoshow", thisid);
+	window.location = "viewphoto.html";
+});
+
+$(document).on('click', '.viewsinglephoto', function(e){
+	e.preventDefault();
+	var thisid = $(this).attr('id').split("-")[1];
+	localStorage.setItem("idtoshow", thisid);
+	window.location = "viewphoto.html";
+	
+});
+
+function viewSinglePhoto(){
+	var thisid = localStorage.getItem("idtoshow");
+	$('#viewsinglephoto').attr('src', localStorage.getItem("contact_"+thisid+"_photo"));
+}
 
 //Page change listener - calls functions to make this readable. NB due to the way the "pages" are loaded we cannot put this inside the document ready function.
 //Sham - this and the below are there for expandability, can be used for selective synch so only page relevant data is refreshed.
@@ -168,7 +194,12 @@ $(document).on( "pagecontainerchange", function( event, ui ) {
 
 	switch (ui.toPage.prop("id")) {
 		case "takephoto":
+			break;
+		case "editnotes":
+			editNotes();
+			break;
 		case "viewphoto":
+			viewSinglePhoto();
 			break;
 		case "viewlist":
 			viewPhotos();
