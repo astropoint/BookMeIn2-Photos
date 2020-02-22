@@ -103,7 +103,7 @@ function viewPhotos(){
 		}else{
 			html += "<td></td>";
 		}
-		html += "<td>"+localStorage.getItem("contact_"+i+"_notes")+"</td>";
+		html += "<td>"+localStorage.getItem("contact_"+i+"_notes").replace(/\n/g,"<br>")+"</td>";
 		html += "<td><a id='gotophotolink-"+i+"' class='gotophoto'><i class='fas fa-edit fa-2x'></i></a></td>";
 		html += "</tr>";
 	}

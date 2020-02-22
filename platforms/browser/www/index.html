@@ -49,7 +49,7 @@
 			<div class='pagebody'>
 			<div><button id='getphotobutton'>Take Photo</button></div>
 			<div><img height='250' id='photoid' /></div>
-			<div><textarea id='notes'></textarea></div>
+			<div><textarea id='notes' rows='6'></textarea></div>
 			<div><button id='save'>Save</button></div>
 			</div>
 					 
@@ -76,8 +76,10 @@
 			<div class='pagebody'>
 				<div id='allcontacts'>Placeholder</div>
 				<div><button id='clearstorage'>Clear storage</button></div>
-				<h3>All local storage</h3>
-						<div id='allstorage'></div>
+				<div id='pendingblock'>
+					<h3>All local storage</h3>
+					<div id='allstorage'></div>
+				</div>
 				<div class='small text-center'>Version: <span class='versionnumber'></span></div>
 			</div>
 					 
@@ -102,8 +104,8 @@
 			
 			
 			<div class='pagebody'>
-				<div>Notes:<br><textarea id='editnotestextarea'></textarea></div>
-				<div><button id='saveeditednotes'>Save notes</button></div>
+				<div>Notes:<br><textarea id='editnotestextarea' rows='6'></textarea></div>
+				<div><button id='saveeditednotes'>Save notes</button><br></div>
 				<div><button class='goback'>Go Back</button></div>
 				<div><img width='100%' id='singlephoto' /></div>
 			</div>
