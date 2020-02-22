@@ -151,7 +151,7 @@ $(document).on('click', '.gotophoto', function(e){
 
 $(document).on('change', '#zoom', function(e){
 	var zoom = $(this).val();
-	$('#singlephoto').attr('width', zoom+"%");
+	$('#viewsinglephoto').attr('width', zoom+"%");
 });
 
 $(document).on('click', '#clearstorage', function(e){
