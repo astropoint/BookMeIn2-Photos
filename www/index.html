@@ -113,10 +113,42 @@
 		</div>  
 	</div>
 
+	<div data-role="page" class='mypage' id="batchlist">
+		<div data-role="header">
+			<title>View Batches</title>
+		</div>
+
+		<div role="main" class="ui-content">
+
+			<!-- banner content-->
+			<div class="banner">
+				<div class="menu_icon">
+					<a class='left' href="#leftpanel"><p class='hamburger_icon'>&#9776;</p></a> <!-- or &#8801 -->
+				</div>			
+			</div>	
+			<h3 class="logo center conference_name">  </h3>
+			<a class="backbutton right" style="font-size:32px" href="javascript:history.back()">&#8592;</a>
+			
+			
+			<div class='pagebody'>
+				<div>Batches of photos previously uploaded:<br>
+					<table>
+						<thead><tr><th>Batch URL</th><th>Password</th></tr></thead>
+						<tbody id='batchbody'>
+						
+						</tbody>
+					</table>
+				</div>
+			</div>
+					 
+		</div>  
+	</div>
+
 	<div data-role="panel" id="leftpanel" data-position="left" data-display="reveal" data-theme="a">
 
 		<a class='menu_link' href="#takePhoto"><span class='fa-menu-item'><i class="fa fa-home fa-menu"></i></span> Take Photos</a><br>
 		<a class='menu_link' href="#viewlist"><span class='fa-menu-item'><i class="fa fa-home fa-menu"></i></span> View Contacts</a><br>
+		<a class='menu_link' href="#viewbatches"><span class='fa-menu-item'><i class="fa fa-home fa-menu"></i></span> View Batches</a><br>
 	</div>
 
 </body>
